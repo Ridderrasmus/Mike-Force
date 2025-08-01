@@ -9,3 +9,4 @@ build_output
 __pycache__
 user_paths.py
 *.code-workspace
+release/
