@@ -4,37 +4,75 @@
     Public: No
 
     Description:
-	    Loads the saved information about a crate.
-		Don't manually use this. Is intended for use 
-		with the full load function.
+        Loads saved crate data and creates a new crate.
+        Uses the new event-based tracking system.
 
     Parameter(s):
-        _crateData - Data known about the crate [ARRAY]
+        _crateData - The data to load [ARRAY]
 
-    Returns: nothing
+    Returns: 
+        _crate - The created crate object [OBJECT]
 
     Example(s):
-	    [["vn_somecrate_here", [[X, Y, Z], Dir], [Inventory data], configEntry]] call vn_mf_fnc_crate_load;
+        [_savedCrateData] call vn_mf_fnc_crate_load;
 */
 
 params ["_crateData"];
 
-// _crateData looks like this = [Classname, [Pos, Dir], Inventory data, Config entry]
+if (count _crateData == 0) exitWith { objNull };
 
+_crateData params ["_class", "_loc", "_data", ["_customVars", []]];
 
-_crateData params ["_className", "_loc", "_inv", "_config"];
+// Create the crate at the saved position
+private _crate = createVehicle [_class, (_loc select 0), [], 0, "CAN_COLLIDE"];
 
-private _crate = createVehicle [_className, [0,0,0], [], 1, "NONE"];
+if (isNull _crate) exitWith {
+    diag_log format ["VN MikeForce: Failed to create crate of class %1", _class];
+    objNull
+};
 
+// Set position and direction
+_crate setPosWorld (_loc select 0);
+_crate setVectorDirAndUp (_loc select 1);
 
-_crate setPos (_loc select 0);
-_crate setDir (_loc select 1);
+// Load saved damage
+_crate setDamage (_data select 0);
 
-
+// Load saved inventory
+private _inv = (_data select 1);
 [_crate, _inv] call vn_mf_fnc_inv_set_data;
 
-[_crate, false] call para_s_fnc_allow_damage_persistent;
+// Restore custom variables
+{
+    _x params ["_varName", "_varValue"];
+    _crate setVariable [_varName, _varValue, true];
+} forEach _customVars;
 
+// Mark as loaded to prevent duplicate loading
+_crate setVariable ["rid_loaded", true, true];
 
-_crate setVariable ["supply_drop_config", _config, true];
-_crate setMass ((getMass _crate) min 2500);
+// Add to tracked crates list
+private _trackedCrates = missionNamespace getVariable ["vn_mf_tracked_crates", []];
+if !(_crate in _trackedCrates) then {
+    _trackedCrates pushBack _crate;
+    missionNamespace setVariable ["vn_mf_tracked_crates", _trackedCrates, true];
+    
+    // Add event handlers
+    _crate addEventHandler ["Killed", {
+        params ["_crate"];
+        private _trackedCrates = missionNamespace getVariable ["vn_mf_tracked_crates", []];
+        _trackedCrates = _trackedCrates - [_crate];
+        missionNamespace setVariable ["vn_mf_tracked_crates", _trackedCrates, true];
+    }];
+    
+    _crate addEventHandler ["Deleted", {
+        params ["_crate"];
+        private _trackedCrates = missionNamespace getVariable ["vn_mf_tracked_crates", []];
+        _trackedCrates = _trackedCrates - [_crate];
+        missionNamespace setVariable ["vn_mf_tracked_crates", _trackedCrates, true];
+    }];
+};
+
+diag_log format ["VN MikeForce: Loaded crate %1 at position %2", _class, _loc select 0];
+
+_crate

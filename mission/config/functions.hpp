@@ -381,6 +381,13 @@ class CfgFunctions
 			class veh_load {};
 			class inv_get_data {};
 			class inv_set_data {};
+			class init_event_tracking {};
+			class add_vehicle_to_tracking {};
+			class remove_vehicle_from_tracking {};
+			class add_crate_to_tracking {};
+			class remove_crate_from_tracking {};
+			class is_friendly_vehicle {};
+			class cleanup_tracked_vehicles {};
 		};
 
 		class system_zones

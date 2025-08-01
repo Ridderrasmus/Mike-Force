@@ -298,6 +298,9 @@ diag_log "VN MikeForce: Initialising AI Behaviour";
     []
 ]] call para_g_fnc_event_add_handler;
 
+// Initialize event tracking for vehicles
+[] call vn_mf_fnc_init_event_tracking;
+
 diag_log "VN MikeForce: Initialising Zones";
 // Initialise the zones
 [] call vn_mf_fnc_zones_init;
@@ -320,11 +323,11 @@ diag_log "VN MikeForce: Initialising Performance Logging";
 diag_log "VN MikeForce: Initialising Dynamic Groups";
 ["Initialize"] call para_c_fnc_dynamicGroups;
 
-// If vehicle and crate autosave is set to anything above zero start the autosave loop and load last save
+// If vehicle and crate autosave is set to anything above zero start the autosave loop
 private _vehicleSaveTimer = "saving_autosave_timer" call BIS_fnc_getParamValue;
 if (_vehicleSaveTimer > 0) then {
-    diag_log "VN MikeForce: Starting Vehicle And Crate Save/Load Loop";
+    diag_log "VN MikeForce: Starting Vehicle And Crate Save/Load Loop (Event-Based System)";
     [_vehicleSaveTimer] call vn_mf_fnc_start_save_loop;
-    [] call vn_mf_fnc_full_load;
 };
+[] call vn_mf_fnc_full_load;
 
