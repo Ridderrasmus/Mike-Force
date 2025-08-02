@@ -16,6 +16,43 @@
 		[parameter] call vn_fnc_myFunction
 */
 
+
+// Check for contested zones and dispatch events for zoneActivated and zoneDeactivated
+
+// Get all active zones that have ongoing objectives
+private _activatedZones = [];
+private _deactivatedZones = [];
+
+private _activeZones = keys (missionNamespace getVariable ["mf_s_dir_activeZones", createHashMap]);
+private _previouslyActiveZones = missionNamespace getVariable ["sp_mf_active_zones", []];
+
+// Find zones that currently have AI objectives
+private _currentlyActiveZones = _activeZones select {
+    private _zoneMarker = _x;
+    private _zonePos = markerPos _zoneMarker;
+    private _zoneSize = markerSize _zoneMarker;
+    count (para_s_ai_obj_active_objectives inAreaArray [_zonePos, _zoneSize select 0, _zoneSize select 1, 0]) > 0
+};
+
+// Find newly activated zones (current but not previous)
+_activatedZones = _currentlyActiveZones select {!(_x in _previouslyActiveZones)};
+
+// Find newly deactivated zones (previous but not current)
+_deactivatedZones = _previouslyActiveZones select {!(_x in _currentlyActiveZones)};
+
+// Update the stored state to the current state
+missionNamespace setVariable ["sp_mf_active_zones", _currentlyActiveZones];
+
+{
+	// Dispatch zone activation event for ambush system and other listeners
+	["zoneActivated", [_x]] call para_g_fnc_event_dispatch;
+} forEach _activatedZones;
+
+{
+	// Dispatch zone deactivation event for ambush system and other listeners
+	["zoneDeactivated", [_x]] call para_g_fnc_event_dispatch;
+} forEach _deactivatedZones;
+
 {
 	[_x] call vn_mf_fnc_zones_save_zone;
 } forEach mf_s_zones;

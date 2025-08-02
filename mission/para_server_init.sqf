@@ -288,6 +288,14 @@ diag_log "VN MikeForce: Initialising AI Behaviour";
 // start the behaviour subsystem
 [] call para_g_fnc_ai_behaviour_subsystem_init;
 
+diag_log "VN MikeForce: Initialising Commander AI";
+// start commander AI subsystem
+[] call vn_mf_fnc_commander_init;
+
+diag_log "SP MikeForce: Initializing Ambush System";
+// Start the ambush subsystem
+[] call vn_mf_fnc_ambush_init;
+
 //Set up slingloaded item locality on helicopters.
 ["vehicleCreated", [
     {

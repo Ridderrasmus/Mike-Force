@@ -149,6 +149,18 @@ class CfgFunctions
 			class ammo_repack {};
 		};
 
+		class system_ambush {
+			file = "functions\systems\ambush";
+			class ambush_init {};
+			class preprocess_roads {};
+			class check_ambush_eligibility {};
+			class get_road_ambush_points {};
+			class get_roads_in_area {};
+			class create_road_key {};
+			class road_usage_ticker {};
+			class process_road_usage_updates {};
+		}
+
 		class system_arsenal_cleanup {
 			file = "functions\systems\arsenal_cleanup";
 			class arsenal_trash_cleanup_init {};
@@ -158,6 +170,13 @@ class CfgFunctions
 		class system_awards {
 			file = "functions\systems\awards";
 			class player_award {};
+		};
+
+		class system_commander
+		{
+			file = "functions\commander";
+			class commander_init {};
+			class commander_logic {};
 		};
 
 		class system_consumables {
