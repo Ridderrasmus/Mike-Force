@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=684;
+		nextID=858;
 	};
 	class Camera
 	{
-		pos[]={3522.6306,85.464821,4409.623};
-		dir[]={0.9603883,-0.27665213,-0.034191575};
-		up[]={0.27649489,0.960967,-0.0098444363};
-		aside[]={-0.0355797,3.3799734e-007,-0.99939507};
+		pos[]={3508.0974,346.46744,4408.7222};
+		dir[]={0.23286378,-0.94683307,-0.22199462};
+		up[]={0.68531495,0.32172513,-0.65332711};
+		aside[]={-0.69001299,1.4901161e-08,-0.72379702};
 	};
 };
 binarizationWanted=0;
@@ -42,6 +42,7 @@ addons[]=
 	"A3_Structures_F_Items_Tools",
 	"characters_f_vietnam_c",
 	"sounds_f_vietnam_c",
+	"cba_jam_vn",
 	"A3_Misc_F_Helpers",
 	"A3_Modules_F"
 };
@@ -49,7 +50,7 @@ class AddonsMetaData
 {
 	class List
 	{
-		items=14;
+		items=15;
 		class Item0
 		{
 			className="modules_f_vietnam";
@@ -136,12 +137,19 @@ class AddonsMetaData
 		};
 		class Item12
 		{
+			className="cba_jam_vn";
+			name="Community Base Addons - Joint Ammo Magazines";
+			author="CBA Team";
+			url="https://www.github.com/CBATeam/CBA_A3";
+		};
+		class Item13
+		{
 			className="A3_Misc_F";
 			name="Arma 3 - 3D Aids and Helpers";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item13
+		class Item14
 		{
 			className="A3_Modules_F";
 			name="Arma 3 Alpha - Scripted Modules";
@@ -181,12 +189,12 @@ class ScenarioData
 		minPlayers=1;
 		maxPlayers=30;
 	};
-	wreckManagerMode=2;
-	wreckLimit=2;
-	wreckRemovalMaxTime=1500;
 	corpseManagerMode=2;
 	corpseLimit=2;
 	corpseRemovalMaxTime=1500;
+	wreckManagerMode=2;
+	wreckLimit=2;
+	wreckRemovalMaxTime=1500;
 };
 class CustomAttributes
 {
@@ -202,6 +210,24 @@ class CustomAttributes
 				class data
 				{
 					singleType="ARRAY";
+				};
+			};
+		};
+		nAttributes=1;
+	};
+	class Category1
+	{
+		name="Scenario";
+		class Attribute0
+		{
+			property="cba_settings_hasSettingsFile";
+			expression="false";
+			class Value
+			{
+				class data
+				{
+					singleType="BOOL";
+					value=1;
 				};
 			};
 		};
@@ -1407,7 +1433,7 @@ class Mission
 			};
 			id=123;
 			type="vn_module_whitelistedarsenal";
-			atlOffset=-3.8146973e-006;
+			atlOffset=-3.8146973e-06;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -2778,7 +2804,7 @@ class Mission
 					};
 					id=323;
 					type="Land_vn_canister_ep1";
-					atlOffset=-3.4332275e-005;
+					atlOffset=-3.4332275e-05;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -3725,7 +3751,7 @@ class Mission
 					};
 					id=421;
 					type="vn_b_men_sf_06";
-					atlOffset=-4.9591064e-005;
+					atlOffset=-4.9591064e-05;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -3762,7 +3788,7 @@ class Mission
 			{
 			};
 			id=420;
-			atlOffset=-4.9591064e-005;
+			atlOffset=-4.9591064e-05;
 		};
 		class Item42
 		{
@@ -6993,7 +7019,7 @@ class Mission
 					};
 					id=455;
 					type="vn_b_men_sf_06";
-					atlOffset=3.8146973e-006;
+					atlOffset=3.8146973e-06;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -7030,7 +7056,7 @@ class Mission
 			{
 			};
 			id=454;
-			atlOffset=3.8146973e-006;
+			atlOffset=3.8146973e-06;
 		};
 		class Item59
 		{
@@ -9299,7 +9325,7 @@ class Mission
 					};
 					id=479;
 					type="vn_b_men_sf_06";
-					atlOffset=-1.1444092e-005;
+					atlOffset=-1.1444092e-05;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -9336,7 +9362,7 @@ class Mission
 			{
 			};
 			id=478;
-			atlOffset=-1.1444092e-005;
+			atlOffset=-1.1444092e-05;
 		};
 		class Item71
 		{
@@ -9494,7 +9520,7 @@ class Mission
 					};
 					id=487;
 					type="vn_b_men_sf_06";
-					atlOffset=-2.2888184e-005;
+					atlOffset=-2.2888184e-05;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -9531,7 +9557,7 @@ class Mission
 			{
 			};
 			id=486;
-			atlOffset=-2.2888184e-005;
+			atlOffset=-2.2888184e-05;
 		};
 		class Item72
 		{
@@ -9587,14 +9613,14 @@ class Mission
 					};
 					id=563;
 					type="vn_o_men_nva_07";
-					atlOffset=1.4305115e-006;
+					atlOffset=1.4305115e-06;
 				};
 			};
 			class Attributes
 			{
 			};
 			id=562;
-			atlOffset=1.4305115e-006;
+			atlOffset=1.4305115e-06;
 		};
 		class Item75
 		{
@@ -9919,7 +9945,7 @@ class Mission
 					};
 					id=577;
 					type="vn_signad_sponsors_f";
-					atlOffset=3.8146973e-006;
+					atlOffset=3.8146973e-06;
 					class CustomAttributes
 					{
 						class Attribute0

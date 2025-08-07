@@ -69,6 +69,8 @@ class CfgFunctions
 			class enable_debug_monitor {};
 			class init_performance_logging {};
 			class log_performance_data {};
+			class debug_commander_ambush {};
+			class debug_road_usage {};
 		};
 
 		class ui
@@ -177,6 +179,11 @@ class CfgFunctions
 			file = "functions\commander";
 			class commander_init {};
 			class commander_logic {};
+			class commander_create_ambush {};
+			class commander_setup_ambush {};
+			class commander_cleanup_ambush {};
+			class commander_force_ambush {};
+			class commander_trigger_ambush {};
 		};
 
 		class system_consumables {

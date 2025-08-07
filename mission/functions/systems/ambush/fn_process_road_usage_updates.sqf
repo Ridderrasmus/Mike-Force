@@ -32,7 +32,14 @@ private _roadUsageMap = missionNamespace getVariable ["vn_mf_road_usage", create
 	
 	// Get current usage and add increment
 	private _currentUsage = _roadUsageMap getOrDefault [_roadKey, 0];
-	_roadUsageMap set [_roadKey, _currentUsage + _increment];
+	private _newUsage = _currentUsage + _increment;
+	
+	// If new usage is negative or very low, remove the road entry
+	if (_newUsage <= 0.1) then {
+		_roadUsageMap deleteAt _roadKey;
+	} else {
+		_roadUsageMap set [_roadKey, _newUsage];
+	};
 	
 } forEach _usageUpdates;
 

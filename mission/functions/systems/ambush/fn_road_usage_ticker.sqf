@@ -28,6 +28,9 @@ if (!alive _player) exitWith {};
 private _playerPos = getPosATL _player;
 private _nearbyRoads = _playerPos nearRoads 100; // Check within 100m radius
 
+// If player in friendly zone, skip road usage tracking
+if (_player call vn_mf_fnc_area_check) exitWith {};
+
 // If no roads nearby, nothing to track
 if (count _nearbyRoads == 0) exitWith {};
 

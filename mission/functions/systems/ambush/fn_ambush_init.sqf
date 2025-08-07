@@ -27,6 +27,34 @@ if (isServer) then {
 	// Preprocess the roads for ambush points
 	[] call vn_mf_fnc_preprocess_roads;
 
+	// Start road usage decay scheduler job
+	["road_usage_decay", {
+		private _roadUsageData = missionNamespace getVariable ["vn_mf_road_usage", createHashMap];
+		private _decayRate = 0.2; // 20% decay every 30 seconds
+		private _decayUpdates = []; // Collect decay updates for atomic processing
+		
+		{
+			private _roadKey = _x;
+			private _currentUsage = _y;
+			private _decayAmount = _currentUsage * _decayRate;
+			private _newUsage = _currentUsage - _decayAmount;
+			
+			// Remove roads with very low usage to prevent hashmap bloat
+			if (_newUsage < 0.1) then {
+				// Set to negative value to signal removal in process function
+				_decayUpdates pushBack [_roadKey, -_currentUsage];
+			} else {
+				// Add negative increment to reduce usage
+				_decayUpdates pushBack [_roadKey, -_decayAmount];
+			};
+		} forEach _roadUsageData;
+		
+		// Use the same atomic processing function as road usage ticker
+		if (count _decayUpdates > 0) then {
+			[_decayUpdates] call vn_mf_fnc_process_road_usage_updates;
+			systemChat format ["SP Mikeforce - Road usage decay: %1 roads processed with %2%% decay", count _decayUpdates, _decayRate * 100];
+		};
+	}, [], 30] call para_g_fnc_scheduler_add_job; // Run every 30 seconds
 
 	diag_log "SP MikeForce: Ambush system initialized on server";
 };

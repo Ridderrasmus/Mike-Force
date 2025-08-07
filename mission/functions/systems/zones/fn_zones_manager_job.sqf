@@ -43,6 +43,9 @@ _deactivatedZones = _previouslyActiveZones select {!(_x in _currentlyActiveZones
 // Update the stored state to the current state
 missionNamespace setVariable ["sp_mf_active_zones", _currentlyActiveZones];
 
+systemChat format ["SP Mikeforce - Activated zones: %1", _activatedZones];
+systemChat format ["SP Mikeforce - Deactivated zones: %1", _deactivatedZones];
+
 {
 	// Dispatch zone activation event for ambush system and other listeners
 	["zoneActivated", [_x]] call para_g_fnc_event_dispatch;
